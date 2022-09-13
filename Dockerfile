@@ -16,7 +16,14 @@ RUN apt-get update  \
     libxcb-dri2-0-dev \
     curl \
     python3 \
-    # another linker for mac?
+    cmake \
+    clang \
+    gcc \
+    g++ \
+    zlib1g-dev \
+    libmpc-dev \
+    libmpfr-dev \
+    libgmp-dev \
     gcc-mingw-w64 \
     && \
     rustup target add \
@@ -25,5 +32,16 @@ RUN apt-get update  \
     && \
     cargo install cross 
 
+
+RUN git clone https://github.com/tpoechtrager/osxcross /usr/local/osxcross &&\
+    cd /usr/local/osxcross && \ 
+    wget -nc https://s3.dockerproject.org/darwin/v2/MacOSX10.10.sdk.tar.xz && \
+    mv MacOSX10.10.sdk.tar.xz tarballs/ && \
+    UNATTENDED=yes OSX_VERSION_MIN=10.7 ./build.sh 
+
+
+ENV PATH "$(pwd)/osxcross/target/bin:$PATH"
+
 WORKDIR /home/local/project
+
 ENTRYPOINT ["/bin/bash"]
