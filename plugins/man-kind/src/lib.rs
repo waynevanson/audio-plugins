@@ -9,8 +9,8 @@ mod editor;
 const PEAK_METER_DECAY_MS: f64 = 150.0;
 
 /// This is mostly identical to the gain example, minus some fluff, and with a GUI.
-struct Gain {
-    params: Arc<GainParams>,
+struct Muddle {
+    params: Arc<MuddleParams>,
 
     /// Needed to normalize the peak meter's response based on the sample rate.
     peak_meter_decay_weight: f32,
@@ -23,7 +23,7 @@ struct Gain {
 }
 
 #[derive(Params)]
-struct GainParams {
+struct MuddleParams {
     /// The editor state, saved together with the parameter state so the custom scaling can be
     /// restored.
     #[persist = "editor-state"]
@@ -33,10 +33,10 @@ struct GainParams {
     pub gain: FloatParam,
 }
 
-impl Default for Gain {
+impl Default for Muddle {
     fn default() -> Self {
         Self {
-            params: Arc::new(GainParams::default()),
+            params: Arc::new(MuddleParams::default()),
 
             peak_meter_decay_weight: 1.0,
             peak_meter: Arc::new(AtomicF32::new(util::MINUS_INFINITY_DB)),
@@ -44,7 +44,7 @@ impl Default for Gain {
     }
 }
 
-impl Default for GainParams {
+impl Default for MuddleParams {
     fn default() -> Self {
         Self {
             editor_state: editor::default_state(),
@@ -67,7 +67,7 @@ impl Default for GainParams {
     }
 }
 
-impl Plugin for Gain {
+impl Plugin for Muddle {
     const NAME: &'static str = "Muddle Bass";
     const VENDOR: &'static str = "Alex Mankind";
     const URL: &'static str = "";
@@ -149,7 +149,7 @@ impl Plugin for Gain {
     }
 }
 
-impl ClapPlugin for Gain {
+impl ClapPlugin for Muddle {
     const CLAP_ID: &'static str = "com.moist-plugins-gmbh.gain-gui-iced";
     const CLAP_DESCRIPTION: Option<&'static str> = Some("A smoothed gain parameter example plugin");
     const CLAP_MANUAL_URL: Option<&'static str> = Some(Self::URL);
@@ -162,10 +162,10 @@ impl ClapPlugin for Gain {
     ];
 }
 
-impl Vst3Plugin for Gain {
+impl Vst3Plugin for Muddle {
     const VST3_CLASS_ID: [u8; 16] = *b"AMAMAMAMAMMuddle";
     const VST3_CATEGORIES: &'static str = "Fx|Distortion";
 }
 
-nih_export_clap!(Gain);
-nih_export_vst3!(Gain);
+nih_export_clap!(Muddle);
+nih_export_vst3!(Muddle);

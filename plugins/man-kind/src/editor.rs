@@ -5,7 +5,7 @@ use nih_plug_iced::*;
 use std::sync::Arc;
 use std::time::Duration;
 
-use crate::GainParams;
+use crate::MuddleParams;
 
 // Makes sense to also define this here, makes it a bit easier to keep track of
 pub(crate) fn default_state() -> Arc<IcedState> {
@@ -13,15 +13,15 @@ pub(crate) fn default_state() -> Arc<IcedState> {
 }
 
 pub(crate) fn create(
-    params: Arc<GainParams>,
+    params: Arc<MuddleParams>,
     peak_meter: Arc<AtomicF32>,
     editor_state: Arc<IcedState>,
 ) -> Option<Box<dyn Editor>> {
-    create_iced_editor::<GainEditor>(editor_state, (params, peak_meter))
+    create_iced_editor::<MuddleEditor>(editor_state, (params, peak_meter))
 }
 
-struct GainEditor {
-    params: Arc<GainParams>,
+struct MuddleEditor {
+    params: Arc<MuddleParams>,
     context: Arc<dyn GuiContext>,
 
     peak_meter: Arc<AtomicF32>,
@@ -36,16 +36,16 @@ enum Message {
     ParamUpdate(nih_widgets::ParamMessage),
 }
 
-impl IcedEditor for GainEditor {
+impl IcedEditor for MuddleEditor {
     type Executor = executor::Default;
     type Message = Message;
-    type InitializationFlags = (Arc<GainParams>, Arc<AtomicF32>);
+    type InitializationFlags = (Arc<MuddleParams>, Arc<AtomicF32>);
 
     fn new(
         (params, peak_meter): Self::InitializationFlags,
         context: Arc<dyn GuiContext>,
     ) -> (Self, Command<Self::Message>) {
-        let editor = GainEditor {
+        let editor = MuddleEditor {
             params,
             context,
 
