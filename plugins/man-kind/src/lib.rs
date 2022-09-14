@@ -150,15 +150,18 @@ impl Plugin for Muddle {
 }
 
 impl ClapPlugin for Muddle {
-    const CLAP_ID: &'static str = "com.moist-plugins-gmbh.gain-gui-iced";
-    const CLAP_DESCRIPTION: Option<&'static str> = Some("A smoothed gain parameter example plugin");
-    const CLAP_MANUAL_URL: Option<&'static str> = Some(Self::URL);
+    const CLAP_ID: &'static str = "com.alexmankind.muddlebass";
+    const CLAP_DESCRIPTION: Option<&'static str> = Some("Transforms a bass into a nice puddle");
+    const CLAP_MANUAL_URL: Option<&'static str> = None;
     const CLAP_SUPPORT_URL: Option<&'static str> = None;
     const CLAP_FEATURES: &'static [ClapFeature] = &[
         ClapFeature::AudioEffect,
         ClapFeature::Stereo,
         ClapFeature::Mono,
         ClapFeature::Utility,
+        ClapFeature::Distortion,
+        ClapFeature::Compressor,
+        ClapFeature::Filter,
     ];
 }
 
