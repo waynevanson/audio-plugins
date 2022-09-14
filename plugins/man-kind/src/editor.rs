@@ -75,36 +75,36 @@ impl IcedEditor for MuddleEditor {
     }
 
     fn view(&mut self) -> Element<'_, Self::Message> {
+        let title = Text::new("Gain GUI")
+            .font(assets::NOTO_SANS_LIGHT)
+            .size(40)
+            .height(50.into())
+            .width(Length::Fill)
+            .horizontal_alignment(alignment::Horizontal::Center)
+            .vertical_alignment(alignment::Vertical::Bottom);
+
+        let knob = Text::new("Gain")
+            .height(20.into())
+            .width(Length::Fill)
+            .horizontal_alignment(alignment::Horizontal::Center)
+            .vertical_alignment(alignment::Vertical::Center);
+
+        let slider = nih_widgets::ParamSlider::new(&mut self.gain_slider_state, &self.params.gain)
+            .map(Message::ParamUpdate);
+
+        let peak_meter = nih_widgets::PeakMeter::new(
+            &mut self.peak_meter_state,
+            util::gain_to_db(self.peak_meter.load(std::sync::atomic::Ordering::Relaxed)),
+        )
+        .hold_time(Duration::from_millis(600));
+
         Column::new()
             .align_items(Alignment::Center)
-            .push(
-                Text::new("Gain GUI")
-                    .font(assets::NOTO_SANS_LIGHT)
-                    .size(40)
-                    .height(50.into())
-                    .width(Length::Fill)
-                    .horizontal_alignment(alignment::Horizontal::Center)
-                    .vertical_alignment(alignment::Vertical::Bottom),
-            )
-            .push(
-                Text::new("Gain")
-                    .height(20.into())
-                    .width(Length::Fill)
-                    .horizontal_alignment(alignment::Horizontal::Center)
-                    .vertical_alignment(alignment::Vertical::Center),
-            )
-            .push(
-                nih_widgets::ParamSlider::new(&mut self.gain_slider_state, &self.params.gain)
-                    .map(Message::ParamUpdate),
-            )
+            .push(title)
+            .push(knob)
+            .push(slider)
             .push(Space::with_height(10.into()))
-            .push(
-                nih_widgets::PeakMeter::new(
-                    &mut self.peak_meter_state,
-                    util::gain_to_db(self.peak_meter.load(std::sync::atomic::Ordering::Relaxed)),
-                )
-                .hold_time(Duration::from_millis(600)),
-            )
+            .push(peak_meter)
             .into()
     }
 
