@@ -68,10 +68,10 @@ impl Default for GainParams {
 }
 
 impl Plugin for Gain {
-    const NAME: &'static str = "Gain GUI (iced)";
-    const VENDOR: &'static str = "Moist Plugins GmbH";
-    const URL: &'static str = "https://youtu.be/dQw4w9WgXcQ";
-    const EMAIL: &'static str = "info@example.com";
+    const NAME: &'static str = "Muddle Bass";
+    const VENDOR: &'static str = "Alex Mankind";
+    const URL: &'static str = "";
+    const EMAIL: &'static str = "luscomberecords@gmail.com";
 
     const VERSION: &'static str = "0.0.1";
 
@@ -163,8 +163,8 @@ impl ClapPlugin for Gain {
 }
 
 impl Vst3Plugin for Gain {
-    const VST3_CLASS_ID: [u8; 16] = *b"GainGuiIcedAaAAa";
-    const VST3_CATEGORIES: &'static str = "Fx|Dynamics";
+    const VST3_CLASS_ID: [u8; 16] = *b"AMAMAMAMAMMuddle";
+    const VST3_CATEGORIES: &'static str = "Fx|Distortion";
 }
 
 nih_export_clap!(Gain);
